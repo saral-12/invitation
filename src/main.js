@@ -99,6 +99,7 @@ if (btnOpenGate && royalGate && mainContent) {
     const tl = gsap.timeline({
       onComplete: () => {
         royalGate.style.display = 'none';
+        document.body.classList.remove('overflow-hidden');
         
         // Start Lenis smooth scroll after gate opens
         lenis.start();
