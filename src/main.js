@@ -206,7 +206,6 @@ if (btnOpenGate && royalGate && mainContent) {
 // 7. Audio Control Binding
 const musicPlayBtn = document.getElementById('music-play-btn');
 const musicMuteBtn = document.getElementById('music-mute-btn');
-const musicVolume = document.getElementById('music-volume');
 
 if (musicPlayBtn) {
   musicPlayBtn.addEventListener('click', () => {
@@ -219,12 +218,6 @@ if (musicMuteBtn) {
   musicMuteBtn.addEventListener('click', () => {
     const isMuted = toggleMute();
     musicMuteBtn.innerHTML = isMuted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
-  });
-}
-
-if (musicVolume) {
-  musicVolume.addEventListener('input', (e) => {
-    setVolume(parseInt(e.target.value, 10));
   });
 }
 
