@@ -114,14 +114,12 @@ export function initScratchCard(canvasId, revealContainerId, onRevealCallback) {
     }
   }
 
-  // Event Listeners for Scratching
+  // Event Listeners for Scratching using unified Pointer Events API
   function getMousePos(e) {
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     return {
-      x: clientX - rect.left,
-      y: clientY - rect.top
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
     };
   }
 
@@ -134,7 +132,6 @@ export function initScratchCard(canvasId, revealContainerId, onRevealCallback) {
 
   function handleMove(e) {
     if (!isDrawing || hasRevealed) return;
-    e.preventDefault(); // Stop mobile scroll while scratching
     const pos = getMousePos(e);
     scratch(pos.x, pos.y);
   }
@@ -143,14 +140,11 @@ export function initScratchCard(canvasId, revealContainerId, onRevealCallback) {
     isDrawing = false;
   }
 
-  canvas.addEventListener('mousedown', handleStart);
-  canvas.addEventListener('mousemove', handleMove);
-  canvas.addEventListener('mouseup', handleEnd);
-  canvas.addEventListener('mouseleave', handleEnd);
-
-  canvas.addEventListener('touchstart', handleStart);
-  canvas.addEventListener('touchmove', handleMove);
-  canvas.addEventListener('touchend', handleEnd);
+  canvas.addEventListener('pointerdown', handleStart);
+  canvas.addEventListener('pointermove', handleMove);
+  canvas.addEventListener('pointerup', handleEnd);
+  canvas.addEventListener('pointercancel', handleEnd);
+  canvas.addEventListener('pointerleave', handleEnd);
 
   resizeCard();
   window.addEventListener('resize', resizeCard);
