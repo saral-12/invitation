@@ -50,6 +50,8 @@ body {
 /* Typography Utilities */
 .font-royal {
   font-family: var(--font-royal);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0;
 }
 
 .font-serif {
