@@ -9,6 +9,8 @@ import { initScratchCard } from './scratchcard.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
+let scratchCardInstance;
+
 // Reveal body once script is active
 document.body.style.opacity = '1';
 
@@ -115,6 +117,10 @@ if (btnOpenGate && royalGate && mainContent) {
     tl.add(() => {
       mainContent.classList.remove('hidden');
       mainContent.classList.add('flex', 'flex-col');
+      
+      if (scratchCardInstance) {
+        scratchCardInstance.resize();
+      }
       
       // Animate Hero text stagger reveal
       gsap.from('#hero-content > *', {
@@ -336,7 +342,7 @@ if (lightbox && lightboxImg) {
 }
 
 // 10. Initialize Scratch Card
-initScratchCard('scratch-canvas', 'scratch-container', () => {
+scratchCardInstance = initScratchCard('scratch-canvas', 'scratch-container', () => {
   // Celebration Confetti Parameterization
   const duration = 5 * 1000;
   const animationEnd = Date.now() + duration;

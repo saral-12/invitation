@@ -151,6 +151,7 @@ export function initScratchCard(canvasId, revealContainerId, onRevealCallback) {
 
   // Return reset handler
   return {
+    resize: resizeCard,
     reset: () => {
       hasRevealed = false;
       canvas.style.opacity = '1';
