@@ -2,6 +2,7 @@ import './index.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import confetti from 'canvas-confetti';
+import Lenis from 'lenis';
 import { initParticles, burstPetals } from './canvas-particles.js';
 import { initAudio, playMusic, togglePlay, toggleMute, setVolume } from './audio.js';
 import { initScratchCard } from './scratchcard.js';
@@ -10,14 +11,32 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Reveal body once script is active
 document.body.style.opacity = '1';
-document.body.classList.remove('overflow-hidden');
-if (!document.getElementById('royal-gate')) {
-  document.body.classList.add('overflow-y-auto');
-} else {
-  document.body.classList.add('overflow-hidden');
-}
 
-// 1. Initialize Custom Cursor
+// 1. Initialize Lenis Smooth Scroll
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  touchMultiplier: 1.5,
+});
+
+// Initially stop scrolling until gate is open
+lenis.stop();
+
+// Link Lenis scroll events to GSAP ScrollTrigger
+lenis.on('scroll', ScrollTrigger.update);
+
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
+
+// Helper function to scroll to targets smoothly if needed
+window.scrollToSection = (selector) => {
+  lenis.scrollTo(selector);
+};
+
+// 2. Initialize Custom Cursor
 const cursor = document.getElementById('custom-cursor');
 const cursorDot = document.getElementById('custom-cursor-dot');
 
@@ -27,7 +46,7 @@ if (cursor && cursorDot) {
     gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.02 });
   });
 
-  // Cursor Hover Effects
+  // Cursor Hover Effects on interactive elements
   const interactives = document.querySelectorAll('a, button, input, select, textarea, .gallery-card, #scratch-canvas');
   interactives.forEach((el) => {
     el.addEventListener('mouseenter', () => {
@@ -45,24 +64,24 @@ if (cursor && cursorDot) {
   });
 }
 
-// 2. Initialize Background Particle System
+// 3. Initialize Background Particle System
 const bgCanvas = document.getElementById('bg-canvas');
 let cleanupParticles = null;
 if (bgCanvas) {
   cleanupParticles = initParticles(bgCanvas);
 }
 
-// 3. Initialize Audio API
+// 4. Initialize Audio Engine
 initAudio();
 
-// 4. Palace Temple Bell Synthesizer (Web Audio API)
+// 5. Palace Temple Bell Synthesizer (Web Audio API)
 function playPalaceBell() {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const now = audioCtx.currentTime;
 
     // Resonant bronze bell frequencies
-    const fundamental = 180; // deep base bell frequency
+    const fundamental = 180; 
     const partials = [1.0, 1.48, 1.95, 2.25, 2.68, 3.12, 3.8, 4.3];
     const amplitudes = [0.8, 0.5, 0.4, 0.3, 0.25, 0.18, 0.1, 0.05];
     const decays = [4.5, 3.5, 3.0, 2.5, 1.8, 1.5, 1.0, 0.6];
@@ -75,7 +94,6 @@ function playPalaceBell() {
       osc.frequency.setValueAtTime(fundamental * partial, now);
 
       gainNode.gain.setValueAtTime(0, now);
-      // Sharp strike attack, exponential tail
       gainNode.gain.linearRampToValueAtTime(amplitudes[i], now + 0.005);
       gainNode.gain.exponentialRampToValueAtTime(0.0001, now + decays[i]);
 
@@ -90,7 +108,7 @@ function playPalaceBell() {
   }
 }
 
-// 5. Gate Opening Animation
+// 6. Gate Opening Animation Sequence
 const btnOpenGate = document.getElementById('btn-open-gate');
 const royalGate = document.getElementById('royal-gate');
 const mainContent = document.getElementById('main-content');
@@ -98,34 +116,34 @@ const musicWidget = document.getElementById('music-widget');
 
 if (btnOpenGate && royalGate && mainContent) {
   btnOpenGate.addEventListener('click', () => {
-    // 1. Play temple bell
+    // Play bell sound
     playPalaceBell();
 
-    // 2. Play soundtrack
+    // Start background music
     playMusic();
 
-    // 3. Trigger cinematic gate opening GSAP timeline
+    // Trigger gate GSAP timeline
     const tl = gsap.timeline({
       onComplete: () => {
-        // Remove gate from DOM to release resources
         royalGate.style.display = 'none';
-        document.body.classList.remove('overflow-hidden');
-        document.body.classList.add('overflow-y-auto');
+        
+        // Start Lenis smooth scroll after gate opens
+        lenis.start();
       }
     });
 
-    // Animate central UI out
+    // Fade out central UI
     tl.to('#gate-center-ui', {
       scale: 0.85,
       opacity: 0,
-      duration: 1,
+      duration: 1.2,
       ease: 'power2.out'
     });
 
     // Zoom-in camera effect
     tl.to('#gate-sky', {
       scale: 1.3,
-      duration: 4,
+      duration: 4.5,
       ease: 'power2.inOut'
     }, 0);
 
@@ -133,21 +151,21 @@ if (btnOpenGate && royalGate && mainContent) {
     tl.to('#gate-left', {
       rotateY: -95,
       x: '-10%',
-      duration: 3.5,
+      duration: 3.8,
       ease: 'power2.inOut'
     }, 0.5);
 
     tl.to('#gate-right', {
       rotateY: 95,
       x: '10%',
-      duration: 3.5,
+      duration: 3.8,
       ease: 'power2.inOut'
     }, 0.5);
 
     // Fade lanterns and gate shadows
     tl.to('.lantern-glow', {
       opacity: 0,
-      duration: 1.5,
+      duration: 1.8,
       ease: 'power2.out'
     }, 1);
 
@@ -174,18 +192,18 @@ if (btnOpenGate && royalGate && mainContent) {
       musicWidget.style.opacity = '1';
       musicWidget.style.transform = 'translateY(0)';
       musicWidget.style.pointerEvents = 'auto';
-    }, 2);
+    }, 2.0);
 
     // Final fadeout of the gate container
     tl.to(royalGate, {
       opacity: 0,
-      duration: 1.5,
+      duration: 1.8,
       ease: 'power1.inOut'
-    }, 3);
+    }, 3.0);
   });
 }
 
-// 6. Audio Control Event Binding
+// 7. Audio Control Binding
 const musicPlayBtn = document.getElementById('music-play-btn');
 const musicMuteBtn = document.getElementById('music-mute-btn');
 const musicVolume = document.getElementById('music-volume');
@@ -210,81 +228,26 @@ if (musicVolume) {
   });
 }
 
-// 7. Navbar Scroll Adjustments & Mobile Menu
-const navbar = document.getElementById('navbar');
-const btnMobileMenu = document.getElementById('btn-mobile-menu');
-const mobileMenu = document.getElementById('mobile-menu');
-const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+// 8. SCROLL TRIGGER ANIMATIONS (CINEMATIC SCROLL EXPERIENCES)
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 50) {
-    navbar.classList.remove('bg-transparent', 'py-4');
-    navbar.classList.add('bg-[#350003]/95', 'py-3', 'shadow-2xl', 'border-b', 'border-[#c5a059]/25', 'backdrop-blur-md');
-  } else {
-    navbar.classList.remove('bg-[#350003]/95', 'py-3', 'shadow-2xl', 'border-b', 'border-[#c5a059]/25', 'backdrop-blur-md');
-    navbar.classList.add('bg-transparent', 'py-4');
-  }
-});
-
-if (btnMobileMenu && mobileMenu) {
-  btnMobileMenu.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-    mobileMenu.classList.toggle('flex');
-  });
-
-  mobileNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      mobileMenu.classList.remove('flex');
-    });
-  });
-}
-
-// 8. Story Timeline & Event Cards Scroll Animations
-gsap.from('.timeline-item', {
+// Chapter 1: Welcome (Hero) text fadeout on scroll
+gsap.to('#hero-content', {
   scrollTrigger: {
-    trigger: '#story',
-    start: 'top 80%',
-    toggleActions: 'play none none none'
+    trigger: '#welcome',
+    start: 'top top',
+    end: 'bottom top',
+    scrub: true
   },
   opacity: 0,
-  y: 50,
-  stagger: 0.3,
-  duration: 1.2,
-  ease: 'power2.out'
+  y: -100,
+  scale: 0.95,
+  ease: 'none'
 });
 
-gsap.from('.event-card', {
+// Chapter 1: Parallax background image
+gsap.to('#welcome', {
   scrollTrigger: {
-    trigger: '#events',
-    start: 'top 80%',
-    toggleActions: 'play none none none'
-  },
-  opacity: 0,
-  scale: 0.9,
-  y: 40,
-  stagger: 0.2,
-  duration: 1,
-  ease: 'back.out(1.2)'
-});
-
-gsap.from('.gallery-card', {
-  scrollTrigger: {
-    trigger: '#gallery',
-    start: 'top 80%',
-    toggleActions: 'play none none none'
-  },
-  opacity: 0,
-  y: 60,
-  stagger: 0.15,
-  duration: 1.2,
-  ease: 'power3.out'
-});
-
-// Hero parallax background
-gsap.to('#home', {
-  scrollTrigger: {
-    trigger: '#home',
+    trigger: '#welcome',
     start: 'top top',
     end: 'bottom top',
     scrub: true
@@ -293,20 +256,94 @@ gsap.to('#home', {
   ease: 'none'
 });
 
-// Fade hero content on scroll
-gsap.to('#hero-content', {
+// Chapter 2: Story timeline items slide in on scroll
+gsap.utils.toArray('.timeline-item').forEach((item) => {
+  const isLeft = item.classList.contains('md:translate-x-[-100%]');
+  
+  gsap.from(item, {
+    scrollTrigger: {
+      trigger: item,
+      start: 'top 85%',
+      toggleActions: 'play none none reverse'
+    },
+    opacity: 0,
+    x: isLeft ? -100 : 100,
+    scale: 0.95,
+    duration: 1.2,
+    ease: 'power3.out'
+  });
+});
+
+// Chapter 3: Gallery Masonry entrance parallax
+gsap.from('.gallery-card', {
   scrollTrigger: {
-    trigger: '#home',
-    start: 'top top',
+    trigger: '#gallery',
+    start: 'top 80%',
+    toggleActions: 'play none none reverse'
+  },
+  opacity: 0,
+  y: 80,
+  scale: 0.95,
+  stagger: 0.2,
+  duration: 1.2,
+  ease: 'power3.out'
+});
+
+// Chapter 5: Wedding itinerary cards scale up
+gsap.from('.event-card', {
+  scrollTrigger: {
+    trigger: '#events',
+    start: 'top 80%',
+    toggleActions: 'play none none reverse'
+  },
+  opacity: 0,
+  scale: 0.9,
+  y: 50,
+  stagger: 0.2,
+  duration: 1.2,
+  ease: 'back.out(1.2)'
+});
+
+// Chapter 6: Venue map container slide-in
+gsap.from('#map-container', {
+  scrollTrigger: {
+    trigger: '#venue',
+    start: 'top 80%',
+    toggleActions: 'play none none reverse'
+  },
+  opacity: 0,
+  scale: 0.95,
+  duration: 1.2,
+  ease: 'power2.out'
+});
+
+// Chapter 8: Ending Scene contents reveal
+gsap.from('#ending-content > *', {
+  scrollTrigger: {
+    trigger: '#ending',
+    start: 'top 80%',
+    toggleActions: 'play none none reverse'
+  },
+  opacity: 0,
+  y: 60,
+  stagger: 0.25,
+  duration: 1.5,
+  ease: 'power3.out'
+});
+
+// Chapter 8: Night parallax background
+gsap.to('#ending', {
+  scrollTrigger: {
+    trigger: '#ending',
+    start: 'top bottom',
     end: 'bottom top',
     scrub: true
   },
-  opacity: 0,
-  y: -80,
+  backgroundPositionY: '10%',
   ease: 'none'
 });
 
-// 9. Gallery Lightbox
+// 9. Gallery Lightbox Modal
 const galleryCards = document.querySelectorAll('.gallery-card');
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
@@ -324,16 +361,18 @@ if (lightbox && lightboxImg) {
       lightboxImg.src = images[currentImgIdx];
       lightbox.classList.remove('hidden');
       lightbox.classList.add('flex');
-      document.body.classList.add('overflow-hidden');
+      
+      // Lock scroll while viewing gallery lightbox
+      lenis.stop();
     });
   });
 
   const closeLightbox = () => {
     lightbox.classList.add('hidden');
     lightbox.classList.remove('flex');
-    if (!document.getElementById('royal-gate') || document.getElementById('royal-gate').style.display === 'none') {
-      document.body.classList.remove('overflow-hidden');
-    }
+    
+    // Unlock scroll
+    lenis.start();
   };
 
   lightboxClose.addEventListener('click', closeLightbox);
@@ -355,7 +394,7 @@ if (lightbox && lightboxImg) {
 
 // 10. Initialize Scratch Card
 initScratchCard('scratch-canvas', 'scratch-container', () => {
-  // Confetti explosion parameters
+  // Celebration Confetti Parameterization
   const duration = 5 * 1000;
   const animationEnd = Date.now() + duration;
   const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
@@ -364,7 +403,6 @@ initScratchCard('scratch-canvas', 'scratch-container', () => {
     return Math.random() * (max - min) + min;
   }
 
-  // 1. Confetti Burst
   const interval = setInterval(function() {
     const timeLeft = animationEnd - Date.now();
 
@@ -377,7 +415,6 @@ initScratchCard('scratch-canvas', 'scratch-container', () => {
     confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
   }, 250);
 
-  // 2. Custom Gold fireworks
   confetti({
     particleCount: 150,
     spread: 80,
@@ -386,7 +423,7 @@ initScratchCard('scratch-canvas', 'scratch-container', () => {
   });
 });
 
-// 11. RSVP Form submission and database storage
+// 11. RSVP Form database submission
 const rsvpForm = document.getElementById('rsvp-form');
 const rsvpSuccessModal = document.getElementById('rsvp-success-modal');
 const btnSuccessClose = document.getElementById('btn-success-close');
@@ -396,7 +433,6 @@ if (rsvpForm) {
   rsvpForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Validate number of guests
     const guestsInput = document.getElementById('rsvp-guests');
     if (!guestsInput.value) {
       alert('Please select the number of guests.');
@@ -412,7 +448,6 @@ if (rsvpForm) {
       message: document.getElementById('rsvp-message').value
     };
 
-    // UI Loading state
     const originalText = rsvpSubmitBtn.innerHTML;
     rsvpSubmitBtn.disabled = true;
     rsvpSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin mr-2"></i>Sending...';
@@ -420,7 +455,6 @@ if (rsvpForm) {
     let success = false;
 
     try {
-      // Post to our express server API
       const response = await fetch('http://localhost:5000/api/rsvp', {
         method: 'POST',
         headers: {
@@ -434,9 +468,8 @@ if (rsvpForm) {
         success = true;
       }
     } catch (err) {
-      console.warn('Backend server not running or unreachable. Falling back to LocalStorage.', err);
+      console.warn('Backend server unreachable. Using local storage backup.', err);
       
-      // Fallback: Save to localStorage so they don't lose data and get success animation anyway!
       const currentList = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
       currentList.push({ ...formData, timestamp: new Date().toISOString() });
       localStorage.setItem('wedding_rsvps', JSON.stringify(currentList));
@@ -446,11 +479,12 @@ if (rsvpForm) {
       rsvpSubmitBtn.innerHTML = originalText;
 
       if (success) {
-        // Show success modal
+        // Stop scroll on success modal display
+        lenis.stop();
+
         rsvpSuccessModal.classList.remove('hidden');
         rsvpSuccessModal.classList.add('flex');
         
-        // Burst success confetti
         confetti({
           particleCount: 150,
           spread: 70,
@@ -469,5 +503,8 @@ if (rsvpSuccessModal && btnSuccessClose) {
   btnSuccessClose.addEventListener('click', () => {
     rsvpSuccessModal.classList.add('hidden');
     rsvpSuccessModal.classList.remove('flex');
+    
+    // Resume scroll after closing success popup
+    lenis.start();
   });
 }

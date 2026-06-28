@@ -30,24 +30,24 @@
   <div id="custom-cursor" class="custom-cursor hidden md:block"></div>
   <div id="custom-cursor-dot" class="custom-cursor-dot hidden md:block"></div>
 
-  <!-- Ambient Particle Canvas -->
+  <!-- Ambient Particle Canvas (Petals, Fireflies, Fog) -->
   <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10"></canvas>
 
-  <!-- 1. LANDING EXPERIENCE: THE ROYAL GATE -->
+  <!-- OPENING SCENE: THE ROYAL PALACE GATE -->
   <div id="royal-gate" class="fixed inset-0 w-full h-full z-50 flex items-center justify-center overflow-hidden bg-radial from-[#580c10] to-[#111111]">
     
-    <!-- Moving Clouds & Sky Backdrop -->
+    <!-- Moving Sky Backdrop -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.15)_0%,transparent_70%)] pointer-events-none"></div>
     <div id="gate-sky" class="absolute inset-0 bg-cover bg-center filter brightness-50 contrast-125" style="background-image: url('/src/assets/hero_bg.png'); transform: scale(1.15);"></div>
     
     <!-- Left Gate Door -->
     <div id="gate-left" class="absolute top-0 left-0 w-1/2 h-full origin-left bg-no-repeat bg-cover border-r-2 border-[#c5a059] shadow-[10px_0_30px_rgba(0,0,0,0.8)]" style="background-image: url('/src/assets/gate.png'); background-position: left center; transform-style: preserve-3d;">
-      <div class="absolute inset-0 bg-black/30"></div>
+      <div class="absolute inset-0 bg-black/35"></div>
     </div>
     
     <!-- Right Gate Door -->
     <div id="gate-right" class="absolute top-0 right-0 w-1/2 h-full origin-right bg-no-repeat bg-cover border-l-2 border-[#c5a059] shadow-[-10px_0_30px_rgba(0,0,0,0.8)]" style="background-image: url('/src/assets/gate.png'); background-position: right center; transform-style: preserve-3d;">
-      <div class="absolute inset-0 bg-black/30"></div>
+      <div class="absolute inset-0 bg-black/35"></div>
     </div>
 
     <!-- Hanging Palace Lanterns -->
@@ -76,51 +76,23 @@
         <p class="font-serif text-sm md:text-lg text-[#e8dfd0] max-w-md italic mb-8">Under the starlit skies of palace mansions, we await your royal presence.</p>
         
         <button id="btn-open-gate" class="font-royal text-base md:text-lg px-8 py-4 bg-gradient-to-r from-[#580c10] to-[#350003] text-[#faf6f0] border border-[#c5a059] rounded-full shadow-2xl hover:scale-105 hover:shadow-[0_0_25px_rgba(197,160,89,0.8)] active:scale-95 transition-all duration-300 cursor-pointer glow-gold tracking-widest uppercase font-semibold">
-          Open The Royal Invitation
+          Open Our Wedding Invitation
         </button>
       </div>
     </div>
   </div>
 
-  <!-- 2. MAIN WEBSITE CONTENT (Revealed after Gate opens) -->
-  <div id="main-content" class="hidden min-h-screen relative w-full overflow-y-auto">
+  <!-- CONTINUOUS SCROLL CONTENT (Locked initially, scrollable after gate opens) -->
+  <div id="main-content" class="hidden min-h-screen relative w-full overflow-x-hidden">
     
-    <!-- Floating Transparent Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-40 px-6 py-4 transition-all duration-500 bg-transparent">
-      <div class="max-w-6xl mx-auto flex items-center justify-between">
-        <a href="#home" class="font-royal text-lg md:text-2xl font-bold text-gold-gradient tracking-widest">A & A</a>
-        
-        <!-- Menu Items (Desktop) -->
-        <div class="hidden lg:flex items-center space-x-8 font-serif text-sm tracking-wider uppercase">
-          <a href="#home" class="hover:text-[#f3e5ab] transition-colors">Home</a>
-          <a href="#story" class="hover:text-[#f3e5ab] transition-colors">Our Story</a>
-          <a href="#gallery" class="hover:text-[#f3e5ab] transition-colors">Gallery</a>
-          <a href="#date-reveal" class="hover:text-[#f3e5ab] transition-colors">Wedding Date</a>
-          <a href="#events" class="hover:text-[#f3e5ab] transition-colors">Events</a>
-          <a href="#venue" class="hover:text-[#f3e5ab] transition-colors">Venue</a>
-          <a href="#rsvp" class="hover:text-[#f3e5ab] transition-colors">RSVP</a>
-        </div>
+    <!-- Minimalist Transparent Floating Logo Header (No Navigation links) -->
+    <header id="navbar" class="fixed top-0 left-0 w-full z-40 px-6 py-4 flex justify-between items-center bg-transparent pointer-events-none">
+      <span class="font-royal text-lg md:text-2xl font-bold text-gold-gradient tracking-widest pointer-events-auto">Aishwarya & Abhishek</span>
+      <span class="font-serif text-xs md:text-sm text-[#e8dfd0]/80 uppercase tracking-widest pointer-events-auto">Vivah Sanskar</span>
+    </header>
 
-        <!-- Mobile Menu Trigger -->
-        <button id="btn-mobile-menu" class="lg:hidden text-[#f3e5ab] text-2xl focus:outline-none">
-          <i class="fa-solid fa-bars-staggered"></i>
-        </button>
-      </div>
-
-      <!-- Mobile Dropdown Menu -->
-      <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-[#350003]/95 border-b border-[#c5a059]/30 backdrop-blur-lg flex-col items-center py-6 space-y-4 font-serif text-base tracking-widest uppercase lg:hidden shadow-xl">
-        <a href="#home" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Home</a>
-        <a href="#story" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Our Story</a>
-        <a href="#gallery" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Gallery</a>
-        <a href="#date-reveal" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Wedding Date</a>
-        <a href="#events" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Events</a>
-        <a href="#venue" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Venue</a>
-        <a href="#rsvp" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">RSVP</a>
-      </div>
-    </nav>
-
-    <!-- SECTION: HERO -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center bg-cover bg-center overflow-hidden py-24" style="background-image: url('/src/assets/hero_bg.png');">
+    <!-- CHAPTER 1: WELCOME (HERO) -->
+    <section id="welcome" class="relative min-h-screen flex items-center justify-center bg-cover bg-center overflow-hidden py-24" style="background-image: url('/src/assets/hero_bg.png');">
       <div class="absolute inset-0 bg-gradient-to-b from-[#350003]/80 via-[#350003]/40 to-[#350003]"></div>
       
       <div id="hero-content" class="relative text-center px-4 max-w-4xl z-20 flex flex-col items-center">
@@ -138,13 +110,14 @@
           "Two souls with but a single thought, two hearts that beat as one. In our fairytale, the next chapter is about to begin."
         </p>
 
-        <a href="#rsvp" class="mt-8 font-royal text-sm px-6 py-3 border border-[#c5a059] rounded-md text-[#f3e5ab] hover:bg-[#c5a059] hover:text-[#350003] transition-all duration-300 uppercase tracking-widest">
-          Join the Celebration
-        </a>
+        <div class="mt-12 text-[#c5a059]/60 text-xs md:text-sm uppercase tracking-widest animate-bounce flex flex-col items-center">
+          <span class="mb-2">Scroll to Begin Our Journey</span>
+          <i class="fa-solid fa-chevron-down text-lg"></i>
+        </div>
       </div>
     </section>
 
-    <!-- SECTION: STORY -->
+    <!-- CHAPTER 2: OUR LOVE STORY -->
     <section id="story" class="relative py-24 px-4 bg-gradient-to-b from-[#350003] to-[#580c10] overflow-hidden">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-16">
@@ -153,7 +126,7 @@
           <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mt-4"></div>
         </div>
 
-        <!-- Timeline -->
+        <!-- Vertical Timeline with Connectors -->
         <div class="relative border-l border-[#c5a059]/40 ml-4 md:ml-1/2 md:translate-x-[-0.5px] py-8">
           
           <!-- First Meeting -->
@@ -210,7 +183,7 @@
       </div>
     </section>
 
-    <!-- SECTION: GALLERY -->
+    <!-- CHAPTER 3: COUPLE GALLERY -->
     <section id="gallery" class="relative py-24 px-4 bg-gradient-to-b from-[#580c10] to-[#111111] overflow-hidden">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
@@ -251,7 +224,6 @@
 
           <div class="gallery-card group relative overflow-hidden rounded-lg border border-[#c5a059]/30 royal-glass p-2 cursor-pointer hover:shadow-[0_0_20px_rgba(197,160,89,0.5)] transition-shadow duration-300 md:col-span-2">
             <div class="overflow-hidden rounded h-80 md:h-[400px]">
-              <!-- We reuse hero image for gallery -->
               <img src="/src/assets/hero_bg.png" alt="Palace Garden" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out lazy-load">
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
@@ -277,8 +249,8 @@
       <img id="lightbox-img" src="" alt="Zoomed view" class="max-w-full max-h-[85vh] rounded-md shadow-2xl object-contain border border-[#c5a059]/30">
     </div>
 
-    <!-- SECTION: SCRATCH CARD DATE REVEAL -->
-    <section id="date-reveal" class="relative py-24 px-4 bg-gradient-to-b from-[#111111] to-[#350003] overflow-hidden">
+    <!-- CHAPTER 4: SCRATCH TO REVEAL DATE -->
+    <section id="scratch" class="relative py-24 px-4 bg-gradient-to-b from-[#111111] to-[#350003] overflow-hidden">
       <div class="max-w-4xl mx-auto flex flex-col items-center">
         <div class="text-center mb-12">
           <h2 class="font-royal text-gold-gradient text-3xl md:text-5xl font-bold tracking-widest mb-4">Save Our Date</h2>
@@ -306,7 +278,7 @@
       </div>
     </section>
 
-    <!-- SECTION: ITINERARY EVENTS -->
+    <!-- CHAPTER 5: WEDDING EVENTS -->
     <section id="events" class="relative py-24 px-4 bg-gradient-to-b from-[#350003] to-[#580c10] overflow-hidden">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
@@ -378,7 +350,7 @@
       </div>
     </section>
 
-    <!-- SECTION: VENUE -->
+    <!-- CHAPTER 6: VENUE -->
     <section id="venue" class="relative py-24 px-4 bg-gradient-to-b from-[#580c10] to-[#111111] overflow-hidden">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
@@ -400,17 +372,17 @@
             </div>
             
             <div class="flex flex-wrap gap-4 pt-4">
-              <a href="https://maps.google.com" target="_blank" class="px-6 py-3 bg-[#c5a059] text-[#350003] font-serif rounded-md font-semibold hover:bg-[#f3e5ab] transition-colors duration-300 flex items-center shadow-lg">
+              <a href="https://maps.google.com" target="_blank" class="px-6 py-3 bg-[#c5a059] text-[#350003] font-serif rounded-md font-semibold hover:bg-[#f3e5ab] transition-colors duration-300 flex items-center shadow-lg pointer-events-auto">
                 <i class="fa-solid fa-location-arrow mr-2"></i>Open in Google Maps
               </a>
-              <a href="#rsvp" class="px-6 py-3 border border-[#c5a059] text-[#f3e5ab] font-serif rounded-md hover:bg-[#c5a059]/20 transition-all duration-300 flex items-center">
-                RSVP for Directions
+              <a href="#rsvp" class="px-6 py-3 border border-[#c5a059] text-[#f3e5ab] font-serif rounded-md hover:bg-[#c5a059]/20 transition-all duration-300 flex items-center pointer-events-auto">
+                Scroll to RSVP
               </a>
             </div>
           </div>
 
           <!-- Embedded Map -->
-          <div class="lg:w-1/2 w-full h-[350px] md:h-[400px] rounded-xl overflow-hidden border-2 border-[#c5a059] shadow-2xl relative">
+          <div id="map-container" class="lg:w-1/2 w-full h-[350px] md:h-[400px] rounded-xl overflow-hidden border-2 border-[#c5a059] shadow-2xl relative">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3627.9100067645163!2d73.68222047589332!3d24.59228837810355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3967e562c157f12f%3A0xe4d3a0cd1c0ee107!2sCity%20Palace!5e0!3m2!1sen!2sin!4v1719545464123!5m2!1sen!2sin" 
               class="w-full h-full border-0" 
@@ -418,7 +390,13 @@
               loading="lazy" 
               referrerpolicy="no-referrer-when-downgrade">
             </iframe>
-            <!-- Decorative corner highlights -->
+            
+            <!-- Animated Custom Map Pin overlay -->
+            <div id="map-custom-pin" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl text-[#580c10] animate-bounce pointer-events-none drop-shadow-[0_4px_6px_rgba(0,0,0,0.5)]">
+              <i class="fa-solid fa-location-pin text-[#f3e5ab] border-2 border-[#c5a059] rounded-full p-1 bg-[#580c10]"></i>
+            </div>
+            
+            <!-- Decorative corners -->
             <div class="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#c5a059]"></div>
             <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#c5a059]"></div>
             <div class="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#c5a059]"></div>
@@ -428,7 +406,7 @@
       </div>
     </section>
 
-    <!-- SECTION: RSVP -->
+    <!-- CHAPTER 7: RSVP FORM -->
     <section id="rsvp" class="relative py-24 px-4 bg-gradient-to-b from-[#111111] to-[#350003] overflow-hidden">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-16">
@@ -438,7 +416,7 @@
         </div>
 
         <!-- RSVP Form Box -->
-        <div class="royal-glass p-8 md:p-12 rounded-xl border border-[#c5a059]/40 shadow-2xl relative">
+        <div class="royal-glass p-8 md:p-12 rounded-xl border border-[#c5a059]/40 shadow-2xl relative pointer-events-auto">
           
           <form id="rsvp-form" class="space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -528,41 +506,53 @@
 
     <!-- RSVP SUCCESS OVERLAY / MODAL -->
     <div id="rsvp-success-modal" class="fixed inset-0 z-50 bg-[#111111]/90 hidden items-center justify-center p-4">
-      <div class="royal-glass max-w-md w-full p-8 md:p-12 text-center rounded-xl border border-[#c5a059] shadow-2xl relative animate-float flex flex-col items-center">
+      <div class="royal-glass max-w-md w-full p-8 md:p-12 text-center rounded-xl border border-[#c5a059] shadow-2xl relative animate-float flex flex-col items-center pointer-events-auto">
         <div class="w-20 h-20 bg-gradient-to-r from-[#c5a059] to-[#f3e5ab] rounded-full flex items-center justify-center text-[#350003] text-4xl shadow-[0_0_20px_rgba(197,160,89,0.7)] mb-6 animate-pulse">
           <i class="fa-solid fa-check"></i>
         </div>
         <h3 class="font-royal text-gold-gradient text-2xl md:text-3xl font-bold mb-4">Auspicious Response Received!</h3>
-        <p class="font-serif italic text-[#faf6f0] text-sm md:text-base mb-8">"Thank You for Celebrating With Us."</p>
-        <button id="btn-success-close" class="font-serif px-6 py-2 border border-[#c5a059] text-[#f3e5ab] rounded hover:bg-[#c5a059] hover:text-[#350003] transition-colors duration-300">
+        <p class="font-serif italic text-[#faf6f0] text-sm md:text-base mb-8">"Thank You For Celebrating With Us ❤️"</p>
+        <button id="btn-success-close" class="font-serif px-6 py-2 border border-[#c5a059] text-[#f3e5ab] rounded hover:bg-[#c5a059] hover:text-[#350003] transition-colors duration-300 cursor-pointer">
           Close Window
         </button>
       </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="relative py-16 px-4 bg-[#111111] text-center border-t border-[#c5a059]/20 overflow-hidden">
-      <div class="max-w-4xl mx-auto flex flex-col items-center relative z-20 space-y-6">
+    <!-- CHAPTER 8: ENDING SCENE (Night Palace View) -->
+    <section id="ending" class="relative min-h-screen flex items-center justify-center bg-cover bg-center overflow-hidden py-24" style="background-image: url('/src/assets/palace_night.png');">
+      <div class="absolute inset-0 bg-gradient-to-b from-[#350003] via-transparent to-[#111111]/90"></div>
+      
+      <div id="ending-content" class="relative text-center px-4 max-w-4xl z-20 flex flex-col items-center space-y-8">
         
-        <div class="text-[#c5a059] text-2xl animate-pulse">
+        <div class="text-[#c5a059] text-3xl md:text-4xl animate-pulse">
           <i class="fa-solid fa-heart"></i>
         </div>
 
-        <p class="font-serif text-sm tracking-widest text-[#faf6f0]/60 uppercase">With Love & Respect</p>
+        <h2 class="font-royal text-gold-gradient text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider leading-tight">
+          Aishwarya <br class="sm:hidden">
+          <span class="text-2xl sm:text-4xl md:text-5xl text-[#faf6f0] font-sans">❤️</span> <br class="sm:hidden">
+          Abhishek
+        </h2>
+
+        <div class="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#c5a059] to-transparent"></div>
+
+        <p class="font-royal text-gold-gradient text-2xl md:text-4xl font-bold tracking-widest uppercase">
+          See You At The Wedding
+        </p>
         
-        <h3 class="font-royal text-gold-gradient text-2xl md:text-4xl font-bold tracking-wider">Aishwarya & Abhishek</h3>
-        
-        <p class="font-serif italic text-lg text-[#e8dfd0] max-w-md">"Waiting to Celebrate With You"</p>
-        
-        <div class="w-16 h-[1px] bg-[#c5a059] my-4"></div>
+        <p class="font-serif italic text-sm md:text-base text-[#e8dfd0] opacity-80">
+          Udaipur, Rajasthan • November 2026
+        </p>
+
+        <div class="w-16 h-[1px] bg-[#c5a059]/40"></div>
         
         <p class="text-xs text-[#faf6f0]/40 font-serif">© 2026 Royal Invitation. Crafted with Elegance.</p>
       </div>
-    </footer>
+    </section>
 
   </div>
 
-  <!-- FLOATING MUSIC CONTROLS (Initially hidden, shown after Gate begins to open) -->
+  <!-- FLOATING MUSIC CONTROLS -->
   <div id="music-widget" class="fixed bottom-6 right-6 z-50 flex items-center space-x-3 bg-[#350003]/80 backdrop-blur-md border border-[#c5a059]/30 rounded-full px-4 py-2.5 shadow-2xl opacity-0 translate-y-10 transition-all duration-700 pointer-events-none">
     
     <!-- Music Wave Visualizer -->
