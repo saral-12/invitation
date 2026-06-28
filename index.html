@@ -38,12 +38,14 @@
     <div id="gate-sky" class="absolute inset-0 bg-cover bg-center filter brightness-50 contrast-125" style="background-image: url('/src/assets/hero_bg.png'); transform: scale(1.15);"></div>
     
     <!-- Left Gate Door -->
-    <div id="gate-left" class="absolute top-0 left-0 w-1/2 h-full origin-left bg-no-repeat bg-cover border-r-2 border-[#c5a059] shadow-[10px_0_30px_rgba(0,0,0,0.8)]" style="background-image: url('/src/assets/gate.png'); background-position: left center; transform-style: preserve-3d;">
+    <div id="gate-left" class="absolute top-0 left-0 w-1/2 h-full origin-left border-r-2 border-[#c5a059] shadow-[10px_0_30px_rgba(0,0,0,0.8)] overflow-hidden" style="transform-style: preserve-3d;">
+      <div class="absolute top-0 left-0 w-[100vw] h-full bg-cover bg-center bg-no-repeat" style="background-image: url('/src/assets/gate.png');"></div>
       <div class="absolute inset-0 bg-black/35"></div>
     </div>
     
     <!-- Right Gate Door -->
-    <div id="gate-right" class="absolute top-0 right-0 w-1/2 h-full origin-right bg-no-repeat bg-cover border-l-2 border-[#c5a059] shadow-[-10px_0_30px_rgba(0,0,0,0.8)]" style="background-image: url('/src/assets/gate.png'); background-position: right center; transform-style: preserve-3d;">
+    <div id="gate-right" class="absolute top-0 right-0 w-1/2 h-full origin-right border-l-2 border-[#c5a059] shadow-[-10px_0_30px_rgba(0,0,0,0.8)] overflow-hidden" style="transform-style: preserve-3d;">
+      <div class="absolute top-0 right-0 w-[100vw] h-full bg-cover bg-center bg-no-repeat" style="background-image: url('/src/assets/gate.png');"></div>
       <div class="absolute inset-0 bg-black/35"></div>
     </div>
 
