@@ -47,40 +47,6 @@ if (bgCanvas) {
 // 4. Initialize Audio Engine
 initAudio();
 
-// 5. Palace Temple Bell Synthesizer (Web Audio API)
-function playPalaceBell() {
-  try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const now = audioCtx.currentTime;
-
-    // Resonant bronze bell frequencies
-    const fundamental = 180; 
-    const partials = [1.0, 1.48, 1.95, 2.25, 2.68, 3.12, 3.8, 4.3];
-    const amplitudes = [0.8, 0.5, 0.4, 0.3, 0.25, 0.18, 0.1, 0.05];
-    const decays = [4.5, 3.5, 3.0, 2.5, 1.8, 1.5, 1.0, 0.6];
-
-    partials.forEach((partial, i) => {
-      const osc = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(fundamental * partial, now);
-
-      gainNode.gain.setValueAtTime(0, now);
-      gainNode.gain.linearRampToValueAtTime(amplitudes[i], now + 0.005);
-      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + decays[i]);
-
-      osc.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-
-      osc.start(now);
-      osc.stop(now + decays[i] + 0.5);
-    });
-  } catch (err) {
-    console.warn('AudioContext failed:', err);
-  }
-}
-
 // 6. Gate Opening Animation Sequence
 const btnOpenGate = document.getElementById('btn-open-gate');
 const royalGate = document.getElementById('royal-gate');
@@ -89,9 +55,6 @@ const musicWidget = document.getElementById('music-widget');
 
 if (btnOpenGate && royalGate && mainContent) {
   btnOpenGate.addEventListener('click', () => {
-    // Play bell sound
-    playPalaceBell();
-
     // Start background music
     playMusic();
 

@@ -104,8 +104,6 @@ export function initScratchCard(canvasId, revealContainerId, onRevealCallback) {
     canvas.style.opacity = '0';
     canvas.style.pointerEvents = 'none';
 
-    // Play celebration sound & vibrate
-    playCelebrationSound();
     if (navigator.vibrate) {
       navigator.vibrate([100, 50, 200]);
     }
@@ -113,36 +111,6 @@ export function initScratchCard(canvasId, revealContainerId, onRevealCallback) {
     // Trigger fireworks and confetti
     if (typeof onRevealCallback === 'function') {
       onRevealCallback();
-    }
-  }
-
-  // Synthesize celebration sound using Web Audio API
-  function playCelebrationSound() {
-    try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const now = audioCtx.currentTime;
-
-      // Create a luxury bell chord
-      const freqs = [523.25, 659.25, 783.99, 987.77]; // C5, E5, G5, B5 (Major 7th chime)
-      
-      freqs.forEach((f, index) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(f, now + index * 0.05);
-
-        gain.gain.setValueAtTime(0.2, now + index * 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5 + index * 0.1);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start(now + index * 0.05);
-        osc.stop(now + 2.0);
-      });
-    } catch (e) {
-      console.warn('Web Audio API not supported or blocked:', e);
     }
   }
 
