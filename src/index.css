@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --color-gold-light: #f3e5ab;
+  --color-gold: #c5a059;
+  --color-gold-dark: #8e6f3e;
+  --color-crimson: #580c10;
+  --color-crimson-dark: #350003;
+  --color-emerald: #0b3c2e;
+  --color-ivory: #faf6f0;
+  --color-ivory-dark: #e8dfd0;
+  
+  --font-royal: 'Cinzel Decorative', serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Montserrat', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-crimson-dark);
+  color: var(--color-ivory);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography Utilities */
+.font-royal {
+  font-family: var(--font-royal);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Royal Gold Text Gradient */
+.text-gold-gradient {
+  background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 50%, var(--color-gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism */
+.royal-glass {
+  background: rgba(88, 12, 16, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 160, 89, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.royal-glass-ivory {
+  background: rgba(250, 246, 240, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 160, 89, 0.2);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Ornate Border */
+.royal-border {
+  position: relative;
+}
+
+.royal-border::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--color-gold);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-crimson-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-light);
+}
+
+/* Floating Animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Soft Glow */
+.glow-gold {
+  box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+}
+
+.glow-gold-lg {
+  box-shadow: 0 0 30px rgba(197, 160, 89, 0.6);
+}
+
+/* Lantern flickering */
+@keyframes flicker {
+  0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 5px rgba(243, 229, 171, 0.5)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(243, 229, 171, 0.9)); }
+}
+
+.lantern-glow {
+  animation: flicker 4s infinite alternate ease-in-out;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-gold);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-gold-light);
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Scratch Card Canvas */
+#scratch-canvas {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23c5a059"><circle cx="12" cy="12" r="10"/></svg>') 12 12, auto;
+}

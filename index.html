@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Aishwarya & Abhishek - Royal Indian Wedding Invitation</title>
+  <meta name="description" content="You are cordially invited to the royal wedding celebration of Aishwarya and Abhishek. Explore our story, itinerary, venue, and RSVP online.">
+  <meta name="keywords" content="wedding invitation, royal indian wedding, Aishwarya Abhishek, interactive invitation, wedding RSVP">
+  <meta property="og:title" content="Aishwarya & Abhishek's Royal Wedding Invitation">
+  <meta property="og:description" content="Join us in celebrating our wedding. View details, timeline, and RSVP.">
+  <meta property="og:type" content="website">
+
+  <!-- Icons & Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Prevent FOUC (Flash of Unstyled Content) and set basic transition for loading */
+    body {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+  </style>
+</head>
+<body class="bg-[#350003] text-[#faf6f0] select-none font-sans overflow-hidden">
+
+  <!-- Custom Cursor -->
+  <div id="custom-cursor" class="custom-cursor hidden md:block"></div>
+  <div id="custom-cursor-dot" class="custom-cursor-dot hidden md:block"></div>
+
+  <!-- Ambient Particle Canvas -->
+  <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10"></canvas>
+
+  <!-- 1. LANDING EXPERIENCE: THE ROYAL GATE -->
+  <div id="royal-gate" class="fixed inset-0 w-full h-full z-50 flex items-center justify-center overflow-hidden bg-radial from-[#580c10] to-[#111111]">
+    
+    <!-- Moving Clouds & Sky Backdrop -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.15)_0%,transparent_70%)] pointer-events-none"></div>
+    <div id="gate-sky" class="absolute inset-0 bg-cover bg-center filter brightness-50 contrast-125" style="background-image: url('/src/assets/hero_bg.png'); transform: scale(1.15);"></div>
+    
+    <!-- Left Gate Door -->
+    <div id="gate-left" class="absolute top-0 left-0 w-1/2 h-full origin-left bg-no-repeat bg-cover border-r-2 border-[#c5a059] shadow-[10px_0_30px_rgba(0,0,0,0.8)]" style="background-image: url('/src/assets/gate.png'); background-position: left center; transform-style: preserve-3d;">
+      <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+    
+    <!-- Right Gate Door -->
+    <div id="gate-right" class="absolute top-0 right-0 w-1/2 h-full origin-right bg-no-repeat bg-cover border-l-2 border-[#c5a059] shadow-[-10px_0_30px_rgba(0,0,0,0.8)]" style="background-image: url('/src/assets/gate.png'); background-position: right center; transform-style: preserve-3d;">
+      <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+
+    <!-- Hanging Palace Lanterns -->
+    <div class="absolute top-0 left-[5%] md:left-[15%] w-16 md:w-24 h-48 md:h-64 pointer-events-none z-20 flex flex-col items-center">
+      <div class="w-1 h-32 md:h-44 bg-gradient-to-b from-[#8e6f3e] to-[#c5a059]"></div>
+      <div class="lantern-glow text-[#f3e5ab] text-3xl md:text-5xl mt-[-5px]">
+        <i class="fa-solid fa-lightbulb"></i>
+      </div>
+    </div>
+
+    <div class="absolute top-0 right-[5%] md:right-[15%] w-16 md:w-24 h-48 md:h-64 pointer-events-none z-20 flex flex-col items-center">
+      <div class="w-1 h-32 md:h-44 bg-gradient-to-b from-[#8e6f3e] to-[#c5a059]"></div>
+      <div class="lantern-glow text-[#f3e5ab] text-3xl md:text-5xl mt-[-5px]">
+        <i class="fa-solid fa-lightbulb"></i>
+      </div>
+    </div>
+
+    <!-- Gate Center Content / Invitation Shield Button -->
+    <div id="gate-center-ui" class="absolute flex flex-col items-center z-30 px-4 text-center">
+      <div class="animate-float flex flex-col items-center">
+        <!-- Royal Crest -->
+        <div class="w-24 h-24 md:w-32 md:h-32 mb-6 border-2 border-[#c5a059] rounded-full flex items-center justify-center bg-[#580c10]/80 shadow-[0_0_20px_rgba(197,160,89,0.5)]">
+          <span class="font-royal text-[#f3e5ab] text-4xl md:text-5xl">AA</span>
+        </div>
+        <h1 class="font-royal text-gold-gradient text-2xl md:text-4xl lg:text-5xl font-bold tracking-widest mb-4">THE ROYAL INVITATION</h1>
+        <p class="font-serif text-sm md:text-lg text-[#e8dfd0] max-w-md italic mb-8">Under the starlit skies of palace mansions, we await your royal presence.</p>
+        
+        <button id="btn-open-gate" class="font-royal text-base md:text-lg px-8 py-4 bg-gradient-to-r from-[#580c10] to-[#350003] text-[#faf6f0] border border-[#c5a059] rounded-full shadow-2xl hover:scale-105 hover:shadow-[0_0_25px_rgba(197,160,89,0.8)] active:scale-95 transition-all duration-300 cursor-pointer glow-gold tracking-widest uppercase font-semibold">
+          Open The Royal Invitation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MAIN WEBSITE CONTENT (Revealed after Gate opens) -->
+  <div id="main-content" class="hidden min-h-screen relative w-full overflow-y-auto">
+    
+    <!-- Floating Transparent Navbar -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-40 px-6 py-4 transition-all duration-500 bg-transparent">
+      <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <a href="#home" class="font-royal text-lg md:text-2xl font-bold text-gold-gradient tracking-widest">A & A</a>
+        
+        <!-- Menu Items (Desktop) -->
+        <div class="hidden lg:flex items-center space-x-8 font-serif text-sm tracking-wider uppercase">
+          <a href="#home" class="hover:text-[#f3e5ab] transition-colors">Home</a>
+          <a href="#story" class="hover:text-[#f3e5ab] transition-colors">Our Story</a>
+          <a href="#gallery" class="hover:text-[#f3e5ab] transition-colors">Gallery</a>
+          <a href="#date-reveal" class="hover:text-[#f3e5ab] transition-colors">Wedding Date</a>
+          <a href="#events" class="hover:text-[#f3e5ab] transition-colors">Events</a>
+          <a href="#venue" class="hover:text-[#f3e5ab] transition-colors">Venue</a>
+          <a href="#rsvp" class="hover:text-[#f3e5ab] transition-colors">RSVP</a>
+        </div>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="btn-mobile-menu" class="lg:hidden text-[#f3e5ab] text-2xl focus:outline-none">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-[#350003]/95 border-b border-[#c5a059]/30 backdrop-blur-lg flex-col items-center py-6 space-y-4 font-serif text-base tracking-widest uppercase lg:hidden shadow-xl">
+        <a href="#home" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Home</a>
+        <a href="#story" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Our Story</a>
+        <a href="#gallery" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Gallery</a>
+        <a href="#date-reveal" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Wedding Date</a>
+        <a href="#events" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Events</a>
+        <a href="#venue" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">Venue</a>
+        <a href="#rsvp" class="mobile-nav-link text-[#faf6f0] hover:text-[#f3e5ab]">RSVP</a>
+      </div>
+    </nav>
+
+    <!-- SECTION: HERO -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center bg-cover bg-center overflow-hidden py-24" style="background-image: url('/src/assets/hero_bg.png');">
+      <div class="absolute inset-0 bg-gradient-to-b from-[#350003]/80 via-[#350003]/40 to-[#350003]"></div>
+      
+      <div id="hero-content" class="relative text-center px-4 max-w-4xl z-20 flex flex-col items-center">
+        <span class="font-serif text-base md:text-xl text-[#f3e5ab] uppercase tracking-widest mb-4">Shubh Vivah</span>
+        
+        <h2 class="font-royal text-gold-gradient text-4xl sm:text-6xl md:text-8xl font-bold tracking-wider leading-tight mb-6">
+          Aishwarya <br class="sm:hidden">
+          <span class="text-2xl sm:text-4xl md:text-5xl text-[#faf6f0] font-sans">❤️</span> <br class="sm:hidden">
+          Abhishek
+        </h2>
+
+        <div class="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#c5a059] to-transparent my-6"></div>
+
+        <p class="font-serif italic text-lg md:text-2xl text-[#e8dfd0] max-w-2xl leading-relaxed">
+          "Two souls with but a single thought, two hearts that beat as one. In our fairytale, the next chapter is about to begin."
+        </p>
+
+        <a href="#rsvp" class="mt-8 font-royal text-sm px-6 py-3 border border-[#c5a059] rounded-md text-[#f3e5ab] hover:bg-[#c5a059] hover:text-[#350003] transition-all duration-300 uppercase tracking-widest">
+          Join the Celebration
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION: STORY -->
+    <section id="story" class="relative py-24 px-4 bg-gradient-to-b from-[#350003] to-[#580c10] overflow-hidden">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-royal text-gold-gradient text-3xl md:text-5xl font-bold tracking-widest mb-4">Our Story</h2>
+          <p class="font-serif italic text-[#e8dfd0] text-sm md:text-lg">How two paths merged into a beautiful lifetime journey</p>
+          <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mt-4"></div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative border-l border-[#c5a059]/40 ml-4 md:ml-1/2 md:translate-x-[-0.5px] py-8">
+          
+          <!-- First Meeting -->
+          <div class="timeline-item relative pl-8 md:pl-0 md:w-1/2 md:translate-x-[-100%] md:pr-12 text-left md:text-right mb-16">
+            <div class="timeline-dot absolute left-[-6px] md:left-auto md:right-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
+            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">First Meeting</span>
+              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Spark</h3>
+              <p class="text-sm text-[#e8dfd0] leading-relaxed">It began with a simple hello across a crowded room. Words flowed like wine, and in that fleeting moment, a spark ignited that would burn for a lifetime.</p>
+            </div>
+          </div>
+
+          <!-- Friendship -->
+          <div class="timeline-item relative pl-8 md:pl-12 md:w-1/2 md:translate-x-[100%] text-left mb-16">
+            <div class="timeline-dot absolute left-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
+            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Friendship</span>
+              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Foundation</h3>
+              <p class="text-sm text-[#e8dfd0] leading-relaxed">We became confidants, sharing laughter, dreams, and quiet silences. Friendship was the deep foundation that let our love grow high.</p>
+            </div>
+          </div>
+
+          <!-- Love -->
+          <div class="timeline-item relative pl-8 md:pl-0 md:w-1/2 md:translate-x-[-100%] md:pr-12 text-left md:text-right mb-16">
+            <div class="timeline-dot absolute left-[-6px] md:left-auto md:right-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
+            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Love</span>
+              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Realization</h3>
+              <p class="text-sm text-[#e8dfd0] leading-relaxed">Like standard stories but unique to us, friendship blossomed into a deep, unspoken love. A bond so strong, neither distance nor time could alter.</p>
+            </div>
+          </div>
+
+          <!-- Proposal -->
+          <div class="timeline-item relative pl-8 md:pl-12 md:w-1/2 md:translate-x-[100%] text-left mb-16">
+            <div class="timeline-dot absolute left-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
+            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Proposal</span>
+              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Promise</h3>
+              <p class="text-sm text-[#e8dfd0] leading-relaxed">Under the canvas of the sky, down on one knee, a simple question was asked. Tears of joy, a soft whisper of 'Yes', and our forever was sealed.</p>
+            </div>
+          </div>
+
+          <!-- Forever -->
+          <div class="timeline-item relative pl-8 md:pl-0 md:w-1/2 md:translate-x-[-100%] md:pr-12 text-left md:text-right">
+            <div class="timeline-dot absolute left-[-6px] md:left-auto md:right-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
+            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Forever</span>
+              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Beginning</h3>
+              <p class="text-sm text-[#e8dfd0] leading-relaxed">Now we stand at the threshold of eternity, waiting to hold hands, take the holy vows, and step into our happily ever after.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: GALLERY -->
+    <section id="gallery" class="relative py-24 px-4 bg-gradient-to-b from-[#580c10] to-[#111111] overflow-hidden">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-royal text-gold-gradient text-3xl md:text-5xl font-bold tracking-widest mb-4">Capturing Moments</h2>
+          <p class="font-serif italic text-[#e8dfd0] text-sm md:text-lg">Our visual diary of love, laughter, and royal celebrations</p>
+          <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mt-4"></div>
+        </div>
+
+        <!-- Masonry Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <div class="gallery-card group relative overflow-hidden rounded-lg border border-[#c5a059]/30 royal-glass p-2 cursor-pointer hover:shadow-[0_0_20px_rgba(197,160,89,0.5)] transition-shadow duration-300 md:col-span-2">
+            <div class="overflow-hidden rounded h-80 md:h-[400px]">
+              <img src="/src/assets/couple_1.png" alt="Royal Couple" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out lazy-load">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              <p class="font-serif text-xl text-[#f3e5ab]">Royal Heritage</p>
+            </div>
+          </div>
+
+          <div class="gallery-card group relative overflow-hidden rounded-lg border border-[#c5a059]/30 royal-glass p-2 cursor-pointer hover:shadow-[0_0_20px_rgba(197,160,89,0.5)] transition-shadow duration-300">
+            <div class="overflow-hidden rounded h-80 md:h-[400px]">
+              <img src="/src/assets/couple_2.png" alt="Henna and Rings" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out lazy-load">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              <p class="font-serif text-xl text-[#f3e5ab]">The Golden Bond</p>
+            </div>
+          </div>
+
+          <div class="gallery-card group relative overflow-hidden rounded-lg border border-[#c5a059]/30 royal-glass p-2 cursor-pointer hover:shadow-[0_0_20px_rgba(197,160,89,0.5)] transition-shadow duration-300">
+            <div class="overflow-hidden rounded h-80 md:h-[400px]">
+              <img src="/src/assets/couple_3.png" alt="Palace Decor" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out lazy-load">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              <p class="font-serif text-xl text-[#f3e5ab]">Palace Ambience</p>
+            </div>
+          </div>
+
+          <div class="gallery-card group relative overflow-hidden rounded-lg border border-[#c5a059]/30 royal-glass p-2 cursor-pointer hover:shadow-[0_0_20px_rgba(197,160,89,0.5)] transition-shadow duration-300 md:col-span-2">
+            <div class="overflow-hidden rounded h-80 md:h-[400px]">
+              <!-- We reuse hero image for gallery -->
+              <img src="/src/assets/hero_bg.png" alt="Palace Garden" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out lazy-load">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              <p class="font-serif text-xl text-[#f3e5ab]">A Walk in Paradise</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden items-center justify-center p-4">
+      <button id="lightbox-close" class="absolute top-6 right-6 text-3xl text-[#faf6f0] hover:text-[#f3e5ab] cursor-pointer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <button id="lightbox-prev" class="absolute left-6 text-4xl text-[#faf6f0] hover:text-[#f3e5ab] cursor-pointer">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button id="lightbox-next" class="absolute right-6 text-4xl text-[#faf6f0] hover:text-[#f3e5ab] cursor-pointer">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+      <img id="lightbox-img" src="" alt="Zoomed view" class="max-w-full max-h-[85vh] rounded-md shadow-2xl object-contain border border-[#c5a059]/30">
+    </div>
+
+    <!-- SECTION: SCRATCH CARD DATE REVEAL -->
+    <section id="date-reveal" class="relative py-24 px-4 bg-gradient-to-b from-[#111111] to-[#350003] overflow-hidden">
+      <div class="max-w-4xl mx-auto flex flex-col items-center">
+        <div class="text-center mb-12">
+          <h2 class="font-royal text-gold-gradient text-3xl md:text-5xl font-bold tracking-widest mb-4">Save Our Date</h2>
+          <p class="font-serif italic text-[#e8dfd0] text-sm md:text-lg">Scratch the gold seal to unlock our wedding details</p>
+          <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mt-4"></div>
+        </div>
+
+        <!-- Scratch Card Box -->
+        <div id="scratch-container" class="relative w-80 h-48 md:w-[450px] md:h-64 rounded-xl overflow-hidden border-2 border-[#c5a059] shadow-2xl bg-[#580c10]">
+          
+          <!-- Revealed Date (Underneath) -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-[#350003]">
+            <span class="font-serif text-[#f3e5ab] text-sm uppercase tracking-widest mb-2">Wedding Date</span>
+            <h3 class="font-royal text-gold-gradient text-2xl md:text-4xl font-bold tracking-wider mb-2">NOVEMBER 28, 2026</h3>
+            <p class="font-serif text-[#faf6f0] text-xs md:text-sm tracking-wide">Saturday • Auspicious Muhuratam</p>
+            <div class="mt-4 flex items-center justify-center space-x-2 text-[#faf6f0] text-xs font-serif opacity-70">
+              <i class="fa-solid fa-bell animate-bounce text-[#f3e5ab]"></i>
+              <span>Save the Date in your heart!</span>
+            </div>
+          </div>
+
+          <!-- Scratch Canvas (Overlay) -->
+          <canvas id="scratch-canvas" class="absolute inset-0 w-full h-full z-20"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: ITINERARY EVENTS -->
+    <section id="events" class="relative py-24 px-4 bg-gradient-to-b from-[#350003] to-[#580c10] overflow-hidden">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-royal text-gold-gradient text-3xl md:text-5xl font-bold tracking-widest mb-4">Wedding Itinerary</h2>
+          <p class="font-serif italic text-[#e8dfd0] text-sm md:text-lg">Join us in each auspicious celebration</p>
+          <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mt-4"></div>
+        </div>
+
+        <!-- Event Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Event 1: Haldi -->
+          <div class="event-card royal-glass royal-border p-8 rounded-lg flex flex-col items-center text-center hover:scale-[1.03] transition-transform duration-300">
+            <div class="w-16 h-16 rounded-full border border-[#c5a059]/40 bg-[#350003] flex items-center justify-center text-[#f3e5ab] text-2xl mb-6">
+              <i class="fa-solid fa-mortar-pestle"></i>
+            </div>
+            <h3 class="font-royal text-[#f3e5ab] text-xl font-semibold tracking-wider mb-2">Haldi Ceremony</h3>
+            <span class="font-serif italic text-[#faf6f0]/75 text-sm mb-4">Applying golden turmeric for blessings</span>
+            <div class="w-full border-t border-[#c5a059]/20 pt-4 mb-4 font-serif text-sm text-[#e8dfd0] space-y-1">
+              <p><i class="fa-regular fa-calendar-days text-[#c5a059] mr-2"></i>Nov 26, 2026</p>
+              <p><i class="fa-regular fa-clock text-[#c5a059] mr-2"></i>10:00 AM onwards</p>
+              <p><i class="fa-solid fa-map-location-dot text-[#c5a059] mr-2"></i>The Royal Courtyard</p>
+            </div>
+          </div>
+
+          <!-- Event 2: Mehendi -->
+          <div class="event-card royal-glass royal-border p-8 rounded-lg flex flex-col items-center text-center hover:scale-[1.03] transition-transform duration-300">
+            <div class="w-16 h-16 rounded-full border border-[#c5a059]/40 bg-[#350003] flex items-center justify-center text-[#f3e5ab] text-2xl mb-6">
+              <i class="fa-solid fa-hands-holding-child"></i>
+            </div>
+            <h3 class="font-royal text-[#f3e5ab] text-xl font-semibold tracking-wider mb-2">Mehendi Rasm</h3>
+            <span class="font-serif italic text-[#faf6f0]/75 text-sm mb-4">Adorning hands with henna love</span>
+            <div class="w-full border-t border-[#c5a059]/20 pt-4 mb-4 font-serif text-sm text-[#e8dfd0] space-y-1">
+              <p><i class="fa-regular fa-calendar-days text-[#c5a059] mr-2"></i>Nov 26, 2026</p>
+              <p><i class="fa-regular fa-clock text-[#c5a059] mr-2"></i>04:00 PM onwards</p>
+              <p><i class="fa-solid fa-map-location-dot text-[#c5a059] mr-2"></i>The Sheesh Mahal Lawn</p>
+            </div>
+          </div>
+
+          <!-- Event 3: Sangeet -->
+          <div class="event-card royal-glass royal-border p-8 rounded-lg flex flex-col items-center text-center hover:scale-[1.03] transition-transform duration-300">
+            <div class="w-16 h-16 rounded-full border border-[#c5a059]/40 bg-[#350003] flex items-center justify-center text-[#f3e5ab] text-2xl mb-6">
+              <i class="fa-solid fa-music"></i>
+            </div>
+            <h3 class="font-royal text-[#f3e5ab] text-xl font-semibold tracking-wider mb-2">Musical Sangeet</h3>
+            <span class="font-serif italic text-[#faf6f0]/75 text-sm mb-4">A night of dance and celebration</span>
+            <div class="w-full border-t border-[#c5a059]/20 pt-4 mb-4 font-serif text-sm text-[#e8dfd0] space-y-1">
+              <p><i class="fa-regular fa-calendar-days text-[#c5a059] mr-2"></i>Nov 27, 2026</p>
+              <p><i class="fa-regular fa-clock text-[#c5a059] mr-2"></i>07:00 PM onwards</p>
+              <p><i class="fa-solid fa-map-location-dot text-[#c5a059] mr-2"></i>Royal Grand Ballroom</p>
+            </div>
+          </div>
+
+          <!-- Event 4: Wedding -->
+          <div class="event-card royal-glass royal-border p-8 rounded-lg flex flex-col items-center text-center hover:scale-[1.03] transition-transform duration-300 md:col-span-2 lg:col-span-1 lg:col-start-2">
+            <div class="w-16 h-16 rounded-full border border-[#c5a059]/40 bg-[#350003] flex items-center justify-center text-[#f3e5ab] text-2xl mb-6">
+              <i class="fa-solid fa-ring"></i>
+            </div>
+            <h3 class="font-royal text-[#f3e5ab] text-xl font-semibold tracking-wider mb-2">Shubh Vivah</h3>
+            <span class="font-serif italic text-[#faf6f0]/75 text-sm mb-4">The holy vows and Phere</span>
+            <div class="w-full border-t border-[#c5a059]/20 pt-4 mb-4 font-serif text-sm text-[#e8dfd0] space-y-1">
+              <p><i class="fa-regular fa-calendar-days text-[#c5a059] mr-2"></i>Nov 28, 2026</p>
+              <p><i class="fa-regular fa-clock text-[#c5a059] mr-2"></i>06:00 PM onwards</p>
+              <p><i class="fa-solid fa-map-location-dot text-[#c5a059] mr-2"></i>The Palace Pavillion</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: VENUE -->
+    <section id="venue" class="relative py-24 px-4 bg-gradient-to-b from-[#580c10] to-[#111111] overflow-hidden">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-royal text-gold-gradient text-3xl md:text-5xl font-bold tracking-widest mb-4">The Royal Venue</h2>
+          <p class="font-serif italic text-[#e8dfd0] text-sm md:text-lg">Join us at the majestic Royal Heritage Palace</p>
+          <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mt-4"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row items-center gap-12">
+          <!-- Venue Details -->
+          <div class="lg:w-1/2 flex flex-col items-start space-y-6">
+            <h3 class="font-royal text-[#f3e5ab] text-2xl md:text-3xl font-bold">The Royal Heritage Palace</h3>
+            <p class="font-serif text-[#faf6f0]/85 text-base md:text-lg leading-relaxed">
+              Experience the grandeur of Rajasthan's golden era. The Royal Heritage Palace stands as a witness to timeless celebrations with its marble arches, scenic lakes, and royal courtyards.
+            </p>
+            <div class="space-y-3 font-serif text-[#e8dfd0] text-sm md:text-base">
+              <p><i class="fa-solid fa-map-marker-alt text-[#c5a059] w-6 text-center mr-2"></i>Palace Road, Near Lake City, Udaipur, Rajasthan, India</p>
+              <p><i class="fa-solid fa-phone text-[#c5a059] w-6 text-center mr-2"></i>+91 98765 43210</p>
+            </div>
+            
+            <div class="flex flex-wrap gap-4 pt-4">
+              <a href="https://maps.google.com" target="_blank" class="px-6 py-3 bg-[#c5a059] text-[#350003] font-serif rounded-md font-semibold hover:bg-[#f3e5ab] transition-colors duration-300 flex items-center shadow-lg">
+                <i class="fa-solid fa-location-arrow mr-2"></i>Open in Google Maps
+              </a>
+              <a href="#rsvp" class="px-6 py-3 border border-[#c5a059] text-[#f3e5ab] font-serif rounded-md hover:bg-[#c5a059]/20 transition-all duration-300 flex items-center">
+                RSVP for Directions
+              </a>
+            </div>
+          </div>
+
+          <!-- Embedded Map -->
+          <div class="lg:w-1/2 w-full h-[350px] md:h-[400px] rounded-xl overflow-hidden border-2 border-[#c5a059] shadow-2xl relative">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3627.9100067645163!2d73.68222047589332!3d24.59228837810355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3967e562c157f12f%3A0xe4d3a0cd1c0ee107!2sCity%20Palace!5e0!3m2!1sen!2sin!4v1719545464123!5m2!1sen!2sin" 
+              class="w-full h-full border-0" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            <!-- Decorative corner highlights -->
+            <div class="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#c5a059]"></div>
+            <div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#c5a059]"></div>
+            <div class="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#c5a059]"></div>
+            <div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#c5a059]"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: RSVP -->
+    <section id="rsvp" class="relative py-24 px-4 bg-gradient-to-b from-[#111111] to-[#350003] overflow-hidden">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-royal text-gold-gradient text-3xl md:text-5xl font-bold tracking-widest mb-4">Requesting Your Presence</h2>
+          <p class="font-serif italic text-[#e8dfd0] text-sm md:text-lg">Kindly respond by November 10, 2026</p>
+          <div class="w-24 h-[1px] bg-[#c5a059] mx-auto mt-4"></div>
+        </div>
+
+        <!-- RSVP Form Box -->
+        <div class="royal-glass p-8 md:p-12 rounded-xl border border-[#c5a059]/40 shadow-2xl relative">
+          
+          <form id="rsvp-form" class="space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Name Input -->
+              <div class="relative group">
+                <input type="text" id="rsvp-name" name="name" required placeholder=" " 
+                  class="w-full bg-transparent border-b-2 border-[#c5a059]/40 text-[#faf6f0] py-2 focus:outline-none focus:border-[#f3e5ab] font-serif transition-colors peer">
+                <label for="rsvp-name" 
+                  class="absolute left-0 top-2 text-[#e8dfd0]/60 font-serif transition-all duration-300 pointer-events-none peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:top-[-16px] peer-focus:text-xs peer-focus:text-[#f3e5ab] peer-[:not(:placeholder-shown)]:top-[-16px] peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-[#f3e5ab]">
+                  Your Full Name
+                </label>
+              </div>
+
+              <!-- Phone Input -->
+              <div class="relative group">
+                <input type="tel" id="rsvp-phone" name="phone" required placeholder=" " 
+                  class="w-full bg-transparent border-b-2 border-[#c5a059]/40 text-[#faf6f0] py-2 focus:outline-none focus:border-[#f3e5ab] font-serif transition-colors peer">
+                <label for="rsvp-phone" 
+                  class="absolute left-0 top-2 text-[#e8dfd0]/60 font-serif transition-all duration-300 pointer-events-none peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:top-[-16px] peer-focus:text-xs peer-focus:text-[#f3e5ab] peer-[:not(:placeholder-shown)]:top-[-16px] peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-[#f3e5ab]">
+                  Phone Number
+                </label>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Email Input -->
+              <div class="relative group">
+                <input type="email" id="rsvp-email" name="email" required placeholder=" " 
+                  class="w-full bg-transparent border-b-2 border-[#c5a059]/40 text-[#faf6f0] py-2 focus:outline-none focus:border-[#f3e5ab] font-serif transition-colors peer">
+                <label for="rsvp-email" 
+                  class="absolute left-0 top-2 text-[#e8dfd0]/60 font-serif transition-all duration-300 pointer-events-none peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:top-[-16px] peer-focus:text-xs peer-focus:text-[#f3e5ab] peer-[:not(:placeholder-shown)]:top-[-16px] peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-[#f3e5ab]">
+                  Email Address
+                </label>
+              </div>
+
+              <!-- Guests Selection -->
+              <div class="relative group">
+                <select id="rsvp-guests" name="guests" required 
+                  class="w-full bg-transparent border-b-2 border-[#c5a059]/40 text-[#faf6f0] py-2 focus:outline-none focus:border-[#f3e5ab] font-serif transition-colors cursor-pointer">
+                  <option value="" disabled selected class="bg-[#350003] text-[#e8dfd0]/60">Number of Guests</option>
+                  <option value="1" class="bg-[#350003]">1 Guest</option>
+                  <option value="2" class="bg-[#350003]">2 Guests</option>
+                  <option value="3" class="bg-[#350003]">3 Guests</option>
+                  <option value="4" class="bg-[#350003]">4 Guests</option>
+                  <option value="5" class="bg-[#350003]">5+ Guests</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Attendance Choice -->
+            <div class="space-y-3">
+              <span class="font-serif text-[#faf6f0] text-sm block">Will you attend our celebrations?</span>
+              <div class="flex space-x-8">
+                <label class="flex items-center space-x-3 cursor-pointer text-sm font-serif group">
+                  <input type="radio" name="attending" value="yes" checked 
+                    class="accent-[#c5a059] w-4 h-4 cursor-pointer">
+                  <span class="text-[#e8dfd0] group-hover:text-[#faf6f0] transition-colors">Yes, Joyfully!</span>
+                </label>
+                <label class="flex items-center space-x-3 cursor-pointer text-sm font-serif group">
+                  <input type="radio" name="attending" value="no" 
+                    class="accent-[#c5a059] w-4 h-4 cursor-pointer">
+                  <span class="text-[#e8dfd0] group-hover:text-[#faf6f0] transition-colors">Regretfully, No</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="relative group">
+              <textarea id="rsvp-message" name="message" rows="3" placeholder=" " 
+                class="w-full bg-transparent border-b-2 border-[#c5a059]/40 text-[#faf6f0] py-2 focus:outline-none focus:border-[#f3e5ab] font-serif transition-colors peer resize-none"></textarea>
+              <label for="rsvp-message" 
+                class="absolute left-0 top-2 text-[#e8dfd0]/60 font-serif transition-all duration-300 pointer-events-none peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-focus:top-[-16px] peer-focus:text-xs peer-focus:text-[#f3e5ab] peer-[:not(:placeholder-shown)]:top-[-16px] peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-[#f3e5ab]">
+                Wishes or Special Request Messages
+              </label>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center pt-4">
+              <button type="submit" id="btn-rsvp-submit" class="font-royal text-sm px-10 py-4 bg-gradient-to-r from-[#c5a059] to-[#8e6f3e] text-[#350003] hover:from-[#f3e5ab] hover:to-[#c5a059] transition-all duration-300 cursor-pointer font-bold tracking-widest rounded shadow-xl uppercase w-full md:w-auto">
+                Send Invitation RSVP
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP SUCCESS OVERLAY / MODAL -->
+    <div id="rsvp-success-modal" class="fixed inset-0 z-50 bg-[#111111]/90 hidden items-center justify-center p-4">
+      <div class="royal-glass max-w-md w-full p-8 md:p-12 text-center rounded-xl border border-[#c5a059] shadow-2xl relative animate-float flex flex-col items-center">
+        <div class="w-20 h-20 bg-gradient-to-r from-[#c5a059] to-[#f3e5ab] rounded-full flex items-center justify-center text-[#350003] text-4xl shadow-[0_0_20px_rgba(197,160,89,0.7)] mb-6 animate-pulse">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h3 class="font-royal text-gold-gradient text-2xl md:text-3xl font-bold mb-4">Auspicious Response Received!</h3>
+        <p class="font-serif italic text-[#faf6f0] text-sm md:text-base mb-8">"Thank You for Celebrating With Us."</p>
+        <button id="btn-success-close" class="font-serif px-6 py-2 border border-[#c5a059] text-[#f3e5ab] rounded hover:bg-[#c5a059] hover:text-[#350003] transition-colors duration-300">
+          Close Window
+        </button>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative py-16 px-4 bg-[#111111] text-center border-t border-[#c5a059]/20 overflow-hidden">
+      <div class="max-w-4xl mx-auto flex flex-col items-center relative z-20 space-y-6">
+        
+        <div class="text-[#c5a059] text-2xl animate-pulse">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <p class="font-serif text-sm tracking-widest text-[#faf6f0]/60 uppercase">With Love & Respect</p>
+        
+        <h3 class="font-royal text-gold-gradient text-2xl md:text-4xl font-bold tracking-wider">Aishwarya & Abhishek</h3>
+        
+        <p class="font-serif italic text-lg text-[#e8dfd0] max-w-md">"Waiting to Celebrate With You"</p>
+        
+        <div class="w-16 h-[1px] bg-[#c5a059] my-4"></div>
+        
+        <p class="text-xs text-[#faf6f0]/40 font-serif">© 2026 Royal Invitation. Crafted with Elegance.</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- FLOATING MUSIC CONTROLS (Initially hidden, shown after Gate begins to open) -->
+  <div id="music-widget" class="fixed bottom-6 right-6 z-50 flex items-center space-x-3 bg-[#350003]/80 backdrop-blur-md border border-[#c5a059]/30 rounded-full px-4 py-2.5 shadow-2xl opacity-0 translate-y-10 transition-all duration-700 pointer-events-none">
+    
+    <!-- Music Wave Visualizer -->
+    <div class="flex items-end space-x-1 h-6 w-8 mr-1">
+      <div class="music-wave-bar w-1 bg-[#c5a059] rounded-full h-3 animate-[pulse_1s_infinite_alternate]" style="animation-play-state: paused;"></div>
+      <div class="music-wave-bar w-1 bg-[#c5a059] rounded-full h-5 animate-[pulse_0.7s_infinite_alternate]" style="animation-play-state: paused; animation-delay: 0.2s;"></div>
+      <div class="music-wave-bar w-1 bg-[#c5a059] rounded-full h-2 animate-[pulse_1.2s_infinite_alternate]" style="animation-play-state: paused; animation-delay: 0.4s;"></div>
+      <div class="music-wave-bar w-1 bg-[#c5a059] rounded-full h-4 animate-[pulse_0.9s_infinite_alternate]" style="animation-play-state: paused; animation-delay: 0.1s;"></div>
+    </div>
+
+    <!-- Play/Pause Button -->
+    <button id="music-play-btn" class="text-[#f3e5ab] hover:text-[#faf6f0] transition-colors focus:outline-none cursor-pointer text-lg">
+      <i class="fa-solid fa-pause"></i>
+    </button>
+
+    <!-- Mute Button -->
+    <button id="music-mute-btn" class="text-[#f3e5ab] hover:text-[#faf6f0] transition-colors focus:outline-none cursor-pointer text-base">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>
+
+    <!-- Volume Slider -->
+    <input type="range" id="music-volume" min="0" max="100" value="50" 
+      class="w-16 md:w-20 accent-[#c5a059] h-1 bg-[#c5a059]/20 rounded-lg cursor-pointer focus:outline-none">
+  </div>
+
+  <!-- Entry main script -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
