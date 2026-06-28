@@ -117,56 +117,73 @@
         </div>
 
         <!-- Vertical Timeline with Connectors -->
-        <div class="relative border-l border-[#c5a059]/40 ml-4 md:ml-1/2 md:translate-x-[-0.5px] py-8">
+        <div class="relative py-8">
+          <!-- Central timeline vertical line (for desktop/mobile separately positioning) -->
+          <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-[1px] bg-[#c5a059]/40 transform md:-translate-x-1/2"></div>
           
           <!-- First Meeting -->
-          <div class="timeline-item relative pl-8 md:pl-0 md:w-1/2 md:translate-x-[-100%] md:pr-12 text-left md:text-right mb-16">
-            <div class="timeline-dot absolute left-[-6px] md:left-auto md:right-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
-            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
-              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">First Meeting</span>
-              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Spark</h3>
-              <p class="text-sm text-[#e8dfd0] leading-relaxed">It began with a simple hello across a crowded room. Words flowed like wine, and in that fleeting moment, a spark ignited that would burn for a lifetime.</p>
+          <div class="flex flex-col md:flex-row items-center w-full mb-16 relative">
+            <div class="w-full md:w-1/2 pl-10 md:pl-0 md:pr-12 text-left md:text-right story-card-left">
+              <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+                <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">First Meeting</span>
+                <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Spark</h3>
+                <p class="text-sm text-[#e8dfd0] leading-relaxed">It began with a simple hello across a crowded room. Words flowed like wine, and in that fleeting moment, a spark ignited that would burn for a lifetime.</p>
+              </div>
             </div>
+            <div class="absolute left-4 md:left-1/2 top-8 md:top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059] z-20"></div>
+            <div class="hidden md:block w-1/2"></div>
           </div>
 
           <!-- Friendship -->
-          <div class="timeline-item relative pl-8 md:pl-12 md:w-1/2 md:translate-x-[100%] text-left mb-16">
-            <div class="timeline-dot absolute left-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
-            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
-              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Friendship</span>
-              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Foundation</h3>
-              <p class="text-sm text-[#e8dfd0] leading-relaxed">We became confidants, sharing laughter, dreams, and quiet silences. Friendship was the deep foundation that let our love grow high.</p>
+          <div class="flex flex-col md:flex-row items-center w-full mb-16 relative">
+            <div class="hidden md:block w-1/2"></div>
+            <div class="absolute left-4 md:left-1/2 top-8 md:top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059] z-20"></div>
+            <div class="w-full md:w-1/2 pl-10 md:pl-12 text-left story-card-right">
+              <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+                <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Friendship</span>
+                <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Foundation</h3>
+                <p class="text-sm text-[#e8dfd0] leading-relaxed">We became confidants, sharing laughter, dreams, and quiet silences. Friendship was the deep foundation that let our love grow high.</p>
+              </div>
             </div>
           </div>
 
           <!-- Love -->
-          <div class="timeline-item relative pl-8 md:pl-0 md:w-1/2 md:translate-x-[-100%] md:pr-12 text-left md:text-right mb-16">
-            <div class="timeline-dot absolute left-[-6px] md:left-auto md:right-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
-            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
-              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Love</span>
-              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Realization</h3>
-              <p class="text-sm text-[#e8dfd0] leading-relaxed">Like standard stories but unique to us, friendship blossomed into a deep, unspoken love. A bond so strong, neither distance nor time could alter.</p>
+          <div class="flex flex-col md:flex-row items-center w-full mb-16 relative">
+            <div class="w-full md:w-1/2 pl-10 md:pl-0 md:pr-12 text-left md:text-right story-card-left">
+              <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+                <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Love</span>
+                <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Realization</h3>
+                <p class="text-sm text-[#e8dfd0] leading-relaxed">Like standard stories but unique to us, friendship blossomed into a deep, unspoken love. A bond so strong, neither distance nor time could alter.</p>
+              </div>
             </div>
+            <div class="absolute left-4 md:left-1/2 top-8 md:top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059] z-20"></div>
+            <div class="hidden md:block w-1/2"></div>
           </div>
 
           <!-- Proposal -->
-          <div class="timeline-item relative pl-8 md:pl-12 md:w-1/2 md:translate-x-[100%] text-left mb-16">
-            <div class="timeline-dot absolute left-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
-            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
-              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Proposal</span>
-              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Promise</h3>
-              <p class="text-sm text-[#e8dfd0] leading-relaxed">Under the canvas of the sky, down on one knee, a simple question was asked. Tears of joy, a soft whisper of 'Yes', and our forever was sealed.</p>
+          <div class="flex flex-col md:flex-row items-center w-full mb-16 relative">
+            <div class="hidden md:block w-1/2"></div>
+            <div class="absolute left-4 md:left-1/2 top-8 md:top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059] z-20"></div>
+            <div class="w-full md:w-1/2 pl-10 md:pl-12 text-left story-card-right">
+              <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+                <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Proposal</span>
+                <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Promise</h3>
+                <p class="text-sm text-[#e8dfd0] leading-relaxed">Under the canvas of the sky, down on one knee, a simple question was asked. Tears of joy, a soft whisper of 'Yes', and our forever was sealed.</p>
+              </div>
             </div>
           </div>
 
           <!-- Forever -->
-          <div class="timeline-item relative pl-8 md:pl-0 md:w-1/2 md:translate-x-[-100%] md:pr-12 text-left md:text-right">
-            <div class="timeline-dot absolute left-[-6px] md:left-auto md:right-[-6px] top-1.5 w-3.5 h-3.5 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059]"></div>
-            <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
-              <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Forever</span>
-              <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Beginning</h3>
-              <p class="text-sm text-[#e8dfd0] leading-relaxed">Now we stand at the threshold of eternity, waiting to hold hands, take the holy vows, and step into our happily ever after.</p>
+          <div class="flex flex-col md:flex-row items-center w-full relative">
+            <div class="w-full md:w-1/2 pl-10 md:pl-0 md:pr-12 text-left md:text-right story-card-left">
+              <div class="royal-glass p-6 rounded-lg border border-[#c5a059]/30 relative hover:scale-[1.02] transition-transform duration-300">
+                <span class="font-royal text-xs text-[#f3e5ab] tracking-wider block mb-2">Forever</span>
+                <h3 class="font-serif text-xl font-bold mb-3 text-gold-gradient">The Beginning</h3>
+                <p class="text-sm text-[#e8dfd0] leading-relaxed">Now we stand at the threshold of eternity, waiting to hold hands, take the holy vows, and step into our happily ever after.</p>
+              </div>
             </div>
+            <div class="absolute left-4 md:left-1/2 top-8 md:top-1/2 transform -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[#f3e5ab] border-2 border-[#580c10] shadow-[0_0_10px_#c5a059] z-20"></div>
+            <div class="hidden md:block w-1/2"></div>
           </div>
 
         </div>

@@ -187,17 +187,30 @@ gsap.to('#welcome', {
 });
 
 // Chapter 2: Story timeline items slide in on scroll
-gsap.utils.toArray('.timeline-item').forEach((item) => {
-  const isLeft = item.classList.contains('md:translate-x-[-100%]');
-  
-  gsap.from(item, {
+gsap.utils.toArray('.story-card-left').forEach((card) => {
+  gsap.from(card, {
     scrollTrigger: {
-      trigger: item,
+      trigger: card,
       start: 'top 85%',
       toggleActions: 'play none none reverse'
     },
     opacity: 0,
-    x: isLeft ? -100 : 100,
+    x: -80,
+    scale: 0.95,
+    duration: 1.2,
+    ease: 'power3.out'
+  });
+});
+
+gsap.utils.toArray('.story-card-right').forEach((card) => {
+  gsap.from(card, {
+    scrollTrigger: {
+      trigger: card,
+      start: 'top 85%',
+      toggleActions: 'play none none reverse'
+    },
+    opacity: 0,
+    x: 80,
     scale: 0.95,
     duration: 1.2,
     ease: 'power3.out'
