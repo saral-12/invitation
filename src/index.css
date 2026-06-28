@@ -147,30 +147,7 @@ body {
   animation: flicker 4s infinite alternate ease-in-out;
 }
 
-/* Custom Cursor */
-.custom-cursor {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--color-gold);
-  border-radius: 50%;
-  position: fixed;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999;
-  transition: width 0.2s, height 0.2s, background-color 0.2s;
-  mix-blend-mode: difference;
-}
 
-.custom-cursor-dot {
-  width: 4px;
-  height: 4px;
-  background-color: var(--color-gold-light);
-  border-radius: 50%;
-  position: fixed;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999;
-}
 
 /* Scratch Card Canvas */
 #scratch-canvas {

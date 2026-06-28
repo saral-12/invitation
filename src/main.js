@@ -36,33 +36,6 @@ window.scrollToSection = (selector) => {
   lenis.scrollTo(selector);
 };
 
-// 2. Initialize Custom Cursor
-const cursor = document.getElementById('custom-cursor');
-const cursorDot = document.getElementById('custom-cursor-dot');
-
-if (cursor && cursorDot) {
-  document.addEventListener('mousemove', (e) => {
-    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
-    gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.02 });
-  });
-
-  // Cursor Hover Effects on interactive elements
-  const interactives = document.querySelectorAll('a, button, input, select, textarea, .gallery-card, #scratch-canvas');
-  interactives.forEach((el) => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '40px';
-      cursor.style.height = '40px';
-      cursor.style.borderColor = '#f3e5ab';
-      cursor.style.backgroundColor = 'rgba(243, 229, 171, 0.1)';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '20px';
-      cursor.style.height = '20px';
-      cursor.style.borderColor = '#c5a059';
-      cursor.style.backgroundColor = 'transparent';
-    });
-  });
-}
 
 // 3. Initialize Background Particle System
 const bgCanvas = document.getElementById('bg-canvas');
